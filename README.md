@@ -10,3 +10,14 @@ Next steps
 ====
 1. Remove the build part and pull pre-built containers from a registry.
 2. Rename the state file inline with the environment name.
+3. Handling Secrets, maybe from Vault. Currently a file is excluded from the repo called secrets.tf:
+
+variable "public_key"
+{
+   default="your private key"
+}
+
+variable "zone_id" {
+  description  ="route53Zone"
+  default="yourdomainzoneid"
+}
