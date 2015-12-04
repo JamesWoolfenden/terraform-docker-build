@@ -51,12 +51,15 @@ resource "aws_instance" "docker-host" {
     }
 
     provisioner "local-exec" {
-        command = <<EOT
-        echo config: > hosts\${aws_instance.docker-host.public_ip}
-        echo public_ip= ${aws_instance.docker-host.public_ip} >> hosts\${aws_instance.docker-host.public_ip}
-        echo private_ip= ${aws_instance.docker-host.private_ip} >> hosts\${aws_instance.docker-host.public_ip}
-EOT
+        command = "echo config: > hosts\${aws_instance.docker-host.public_ip}"
     }
+    provisioner "local-exec" {
+        command = "echo public_ip= ${aws_instance.docker-host.public_ip} >> hosts\${aws_instance.docker-host.public_ip}"
+    }
+    provisioner "local-exec" {
+        command = "echo private_ip= ${aws_instance.docker-host.private_ip} >> hosts\${aws_instance.docker-host.public_ip}"
+    }
+
 
     tags  = {
         "Name"        = "docker-compose-${var.environment}"

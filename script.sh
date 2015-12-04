@@ -14,12 +14,16 @@ echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-
 echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
 sudo apt-get -y install oracle-java8-installer
 #sudo apt-get -y install openjdk-8-jdk
-
 #this get the latest docker t00ls
+#add missing docker dependencies
+sudo apt-get -y install lxc wget bsdtar curl
+sudo apt-get -y install linux-image-extra-$(uname -r)
+sudo modprobe aufs
 echo "Installing the latest docker"
 wget -qO- https://get.docker.com/ | sh
 sudo usermod -aG docker ubuntu
-source ~/.bash_profile
+exec sg docker newgrp `id -gn`
+#sudo newgrp docker
 sudo pip install -U docker-compose
 #add node and bower
 echo "Installing the latest node"
@@ -40,11 +44,14 @@ sudo apt-get -y install oracle-java8-set-default
 sudo wget downloads.typesafe.com/typesafe-activator/1.3.6/typesafe-activator-1.3.6.zip
 sudo apt-get install unzip
 unzip typesafe-activator-1.3.6.zip
-sudo ln -s /home/ubuntu/activator-1.3.6/activator /usr/bin/activator
+sudo ln -sf /home/ubuntu/activator-dist-1.3.6/activator /usr/bin/activator
+echo **** checking docker daemon ****
+ps aux | grep docker
 #and builds
 cd Aevi-EcoSystem
 sh buildDockerImage.sh
 #built not bring em online
 nohup docker-compose up &
-#needs data
-sh runDemoDataLoader.sh
+#needs data doesnt work wel with automation as it requests input
+# and is hardcoded for certain environments
+#sh runDemoDataLoader.sh
