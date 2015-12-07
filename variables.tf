@@ -36,6 +36,6 @@ variable "environment" {
   default="development"
 }
 
-variable "dnsname"{
-  default="development.aevi.mobi"
+variable "domain" {
+  default ="aevi-test.io"
 }

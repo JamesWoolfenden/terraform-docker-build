@@ -22,7 +22,8 @@ sudo modprobe aufs
 echo "Installing the latest docker"
 wget -qO- https://get.docker.com/ | sh
 sudo usermod -aG docker ubuntu
-exec sg docker newgrp `id -gn`
+#exec sg docker newgrp `id -gn`
+#sg docker newgrp `id -gn`
 #sudo newgrp docker
 sudo pip install -U docker-compose
 #add node and bower
@@ -45,13 +46,10 @@ sudo wget downloads.typesafe.com/typesafe-activator/1.3.6/typesafe-activator-1.3
 sudo apt-get install unzip
 unzip typesafe-activator-1.3.6.zip
 sudo ln -sf /home/ubuntu/activator-dist-1.3.6/activator /usr/bin/activator
-echo **** checking docker daemon ****
-ps aux | grep docker
+#ps aux | grep docker
 #and builds
-cd Aevi-EcoSystem
-sh buildDockerImage.sh
 #built not bring em online
-nohup docker-compose up &
+#nohup docker-compose up &
 #needs data doesnt work wel with automation as it requests input
 # and is hardcoded for certain environments
 #sh runDemoDataLoader.sh

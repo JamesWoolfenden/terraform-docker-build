@@ -1,2 +1,2 @@
-set ENV=%1
-Terraform destroy -force -state=.\state\Terraform-%ENV%.tfstate -var environment=%ENV% 
+set ENVIRONMENT=%1
+Terraform destroy -force -state=.\state\Terraform-%ENVIRONMENT%.tfstate -var environment=%ENVIRONMENT% 
