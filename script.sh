@@ -29,10 +29,9 @@ sudo pip install -U docker-compose
 #add node and bower
 echo "Installing the latest node"
 curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-sudo apt-get install -y nodejs
+sudo apt-get -y install nodejs
+sudo apt-get -y install npm
 sudo npm update -g npm
-sudo npm install -g grunt-cli
-sudo npm install -g bower
 #sbt
 echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823

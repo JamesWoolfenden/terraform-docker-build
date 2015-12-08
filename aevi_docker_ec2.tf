@@ -54,9 +54,11 @@ resource "aws_instance" "docker-host" {
     #new login should refresh docker group, stands up docker containers
     provisioner "remote-exec" {
        inline = [
+          "sudo npm install -g grunt-cli",
+          "sudo npm install -g bower",
           "cd Aevi-EcoSystem",
           "sh buildDockerImage.sh",
-          "nohup docker-compose up &"
+          "docker-compose up &"
           ]
           connection {
                user = "ubuntu"
