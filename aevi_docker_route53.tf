@@ -17,9 +17,9 @@ resource "aws_route53_record" "admin" {
    records = ["${aws_instance.docker-host.public_dns}"]
 }
 
-resource "aws_route53_record" "marketplace" {
+resource "aws_route53_record" "appstore" {
    zone_id = "${var.zone_id}"
-   name = "marketplace.${var.environment}.${var.domain}"
+   name = "appstore.${var.environment}.${var.domain}"
    type = "CNAME"
    ttl = "300"
    records = ["${aws_instance.docker-host.public_dns}"]

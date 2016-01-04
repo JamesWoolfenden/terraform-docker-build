@@ -44,7 +44,8 @@ resource "aws_instance" "docker-host" {
           "ssh-keyscan github.com >> ~/.ssh/known_hosts",
           "ssh-add ${var.git_hub_key}",
           "echo 'IdentityFile ${var.git_hub_key}' > ~/.ssh/config",
-          "/tmp/script.sh args"
+          "/tmp/script.sh args",
+          "git clone -b ${var.branchname} git@github.com:Wincor-Nixdorf/Aevi-EcoSystem.git"
           ]
           connection {
                user = "ubuntu"
@@ -57,9 +58,11 @@ resource "aws_instance" "docker-host" {
           "sudo npm install -g grunt-cli",
           "sudo npm install -g bower",
           "cd Aevi-EcoSystem",
-          "sh buildDockerImage.sh",
-          "docker-compose up &"
+          "sh buildDockerImage.sh"
           ]
+          /*,
+          "docker-compose up &",
+          "sh runDemoDataLoader.sh"*/
           connection {
                user = "ubuntu"
                key_file="${var.key_path}"}

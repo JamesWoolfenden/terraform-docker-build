@@ -39,3 +39,8 @@ variable "environment" {
 variable "domain" {
   default ="aevi-test.io"
 }
+
+variable "branchname" {
+  #deafult="develop"
+  default ="fix-demo-dataloader"
+}

@@ -38,17 +38,9 @@ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
 sudo apt-get update
 sudo apt-get -y install sbt
 #./activator clean stage
-git clone git@github.com:Wincor-Nixdorf/Aevi-EcoSystem.git
 sudo apt-get -y install oracle-java8-set-default
 #typesafe-activator
 sudo wget downloads.typesafe.com/typesafe-activator/1.3.6/typesafe-activator-1.3.6.zip
 sudo apt-get install unzip
 unzip typesafe-activator-1.3.6.zip
 sudo ln -sf /home/ubuntu/activator-dist-1.3.6/activator /usr/bin/activator
-#ps aux | grep docker
-#and builds
-#built not bring em online
-#nohup docker-compose up &
-#needs data doesnt work wel with automation as it requests input
-# and is hardcoded for certain environments
-#sh runDemoDataLoader.sh
