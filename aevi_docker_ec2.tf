@@ -30,7 +30,6 @@ resource "aws_instance" "docker-host" {
                   key_file="${var.key_path}"}
        }
 
-    #dependencies and build
     provisioner "remote-exec" {
        inline = [
           "echo 'export AWS_ACCESS_KEY_ID_RELEASES_AEVI_COM=${var.s3_access_key}' >> ~/.bashrc",
@@ -38,44 +37,25 @@ resource "aws_instance" "docker-host" {
           "echo 'export AWS_ACCESS_KEY_ID=${var.s3_access_key}' >> ~/.bashrc",
           "echo 'export AWS_SECRET_ACCESS_KEY=${var.s3_secret_key}' >> ~/.bashrc",
           "echo 'export DB_HOST1_PORT_9042_TCP_ADDR=${aws_instance.docker-host.public_dns}' >> ~/.bashrc",
-          "echo 'export DNSNAME=${var.environment}.${var.domain}' >> ~/.bashrc",
+          "echo 'export DNSNAME=${var.dnsname}' >> ~/.bashrc",
           "chmod +x /tmp/script.sh",
           "chmod 400 ${var.git_hub_key}",
           "ssh-keyscan github.com >> ~/.ssh/known_hosts",
           "ssh-add ${var.git_hub_key}",
           "echo 'IdentityFile ${var.git_hub_key}' > ~/.ssh/config",
-          "/tmp/script.sh args",
-          "git clone -b ${var.branchname} git@github.com:Wincor-Nixdorf/Aevi-EcoSystem.git"
+          "/tmp/script.sh args"
           ]
           connection {
                user = "ubuntu"
                key_file="${var.key_path}"}
     }
 
-    #new login should refresh docker group, stands up docker containers
-    provisioner "remote-exec" {
-       inline = [
-          "sudo npm install -g grunt-cli",
-          "sudo npm install -g bower",
-          "cd Aevi-EcoSystem",
-          "sh buildDockerImage.sh"
-          ]
-          /*,
-          "docker-compose up &",
-          "sh runDemoDataLoader.sh"*/
-          connection {
-               user = "ubuntu"
-               key_file="${var.key_path}"}
-    }
-
     provisioner "local-exec" {
-        command = "echo config: > hosts\${aws_instance.docker-host.public_ip}"
-    }
-    provisioner "local-exec" {
-        command = "echo public_ip= ${aws_instance.docker-host.public_ip} >> hosts\${aws_instance.docker-host.public_ip}"
-    }
-    provisioner "local-exec" {
-        command = "echo private_ip= ${aws_instance.docker-host.private_ip} >> hosts\${aws_instance.docker-host.public_ip}"
+        command = <<EOT
+        echo config: > ${aws_instance.docker-host.public_ip}
+        echo public_ip= ${aws_instance.docker-host.public_ip} >> ${aws_instance.docker-host.public_ip}
+        echo private_ip= ${aws_instance.docker-host.private_ip} >> ${aws_instance.docker-host.public_ip}
+EOT
     }
 
     tags  = {

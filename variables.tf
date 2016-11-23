@@ -36,11 +36,6 @@ variable "environment" {
   default="development"
 }
 
-variable "domain" {
-  default ="aevi-test.io"
-}
-
-variable "branchname" {
-  #deafult="develop"
-  default ="fix-demo-dataloader"
+variable "dnsname"{
+  default="development.aevi.mobi"
 }
