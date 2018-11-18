@@ -1,21 +1,20 @@
 #
-# Launch Container Instance
+# Launch Container host
 #
 
 resource "aws_instance" "docker-host" {
-    availability_zone    = "${var.region}c"
-    key_name             = "${aws_key_pair.docker-compose.key_name}"
-    ami                  = "${lookup(var.aws_amis, var.region)}"
-    instance_type        = "${var.instance_type}"
+  availability_zone = "${var.region}c"
+  key_name          = "${aws_key_pair.docker-compose.key_name}"
+  ami               = "${lookup(var.aws_amis, var.region)}"
+  instance_type     = "${var.instance_type}"
 
-    root_block_device {
-      volume_type = "standard"
-      volume_size = 100
-      delete_on_termination = 1
-    }
+  root_block_device {
+    volume_type           = "standard"
+    volume_size           = 100
+    delete_on_termination = 1
+  }
 
-
-        user_data = <<EOT
+  user_data = <<EOT
 sudo apt-get update
 sudo apt-get -y install libssl-dev git-core pkg-config build-essential curl gcc g++
 sudo apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
@@ -59,10 +58,10 @@ sudo ln -s /home/ubuntu/activator-1.3.6/activator /usr/bin/activator
 nohup docker-compose up &
 EOT
 
-    tags  = {
-        "Name"        = "docker-compose-${var.environment}"
-        "Environment" = "${var.environment}"
-    }
+  tags = {
+    "Name"        = "docker-compose-${var.environment}"
+    "Environment" = "${var.environment}"
+  }
 
-    security_groups=["${aws_security_group.docker-compose.name}"]
+  security_groups = ["${aws_security_group.docker-compose.name}"]
 }

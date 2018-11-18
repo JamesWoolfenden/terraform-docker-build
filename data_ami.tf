@@ -7,5 +7,5 @@ data "aws_ami" "ubuntu" {
     values = ["ubuntu*"]
   }
 
-  owners     = ["self"]
+  owners = ["self"]
 }
