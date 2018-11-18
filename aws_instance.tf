@@ -5,7 +5,7 @@
 resource "aws_instance" "docker-host" {
   availability_zone = "${var.region}c"
   key_name          = "${aws_key_pair.docker-compose.key_name}"
-  ami               = "${lookup(var.aws_amis, var.region)}"
+  ami               = "${data.aws_ami.ubuntu.image_id}"
   instance_type     = "${var.instance_type}"
 
   root_block_device {

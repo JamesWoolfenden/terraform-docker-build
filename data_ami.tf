@@ -1,11 +1,10 @@
 data "aws_ami" "ubuntu" {
-  most_recent      = true
-  executable_users = ["self"]
+  most_recent = true
 
   filter {
     name   = "name"
-    values = ["ubuntu*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server*"]
   }
 
-  owners = ["self"]
+  owners = ["099720109477"]
 }
