@@ -1,29 +1,3 @@
-variable "access_key" {
-  description  ="AWS access key"
-}
-
-variable "secret_key" {
-  description  ="AWS secret"
-}
-
-variable "s3_access_key" {
-  description  ="TF_VAR_s3_access_key"
-}
-
-variable "s3_secret_key" {
-  description  ="TF_VAR_s3_secret_key"
-}
-
-variable "key_path" {
-   description  ="path to key for ssh"
-   default="C:\Users\James\.ssh\cassandra"
-}
-
-variable "git_hub_key" {
-   description  ="path to key for ssh"
-   default="~/.ssh/github"
-}
-
 variable "region" {
     default = "eu-west-1"
 }
@@ -36,6 +10,17 @@ variable "environment" {
   default="development"
 }
 
-variable "dnsname"{
-  default="development.aevi.mobi"
+
+variable "aws_amis" {
+    description="These are ubuntu 14.04 ami"
+    default = {
+      us-east-1="ami-d05e75b8"
+      eu-west-1="ami-47a23a30"
+    }
+}
+
+variable "access_ip" {}
+
+locals {
+  dnsname="${var.environment}.test.mobi"
 }
