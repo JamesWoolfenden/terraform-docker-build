@@ -6,3 +6,4 @@ This script requires that you pass in a value for your SSH key. It can take a pa
 Next steps
 ====
 1. Remove the build part and pull pre-built containers from a registry.
+2. This should provision inside of a specified vpc.
