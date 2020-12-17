@@ -6,7 +6,7 @@ resource "aws_security_group" "docker-compose" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["${var.access_ip}"]
+    cidr_blocks = [var.access_ip]
   }
 
   ingress {
@@ -32,7 +32,7 @@ resource "aws_security_group" "docker-compose" {
 
   tags = {
     "Name"        = "docker-compose-${var.environment}"
-    "Environment" = "${var.environment}"
+    "Environment" = var.environment
     "Role"        = "Docker-Compose"
   }
 }

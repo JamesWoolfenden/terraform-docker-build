@@ -3,17 +3,22 @@
 #
 
 resource "aws_instance" "docker-host" {
+  #checkov:skip=CKV_AWS_46: "Ensure no hard coded AWS access key and secret key exists in EC2 user data"
   availability_zone = "${var.region}c"
-  key_name          = "${aws_key_pair.docker-compose.key_name}"
-  ami               = "${data.aws_ami.ubuntu.image_id}"
-  instance_type     = "${var.instance_type}"
+  key_name          = aws_key_pair.docker-compose.key_name
+  ami               = data.aws_ami.ubuntu.image_id
+  instance_type     = var.instance_type
 
   root_block_device {
+    encrypted             = true
     volume_type           = "standard"
     volume_size           = 100
-    delete_on_termination = 1
+    delete_on_termination = true
   }
 
+  metadata_options {
+    http_tokens = "required"
+  }
   user_data = <<EOT
 sudo apt-get update
 sudo apt-get -y install libssl-dev git-core pkg-config build-essential curl gcc g++
@@ -60,8 +65,8 @@ EOT
 
   tags = {
     "Name"        = "docker-compose-${var.environment}"
-    "Environment" = "${var.environment}"
+    "Environment" = var.environment
   }
 
-  security_groups = ["${aws_security_group.docker-compose.name}"]
+  security_groups = [aws_security_group.docker-compose.name]
 }
